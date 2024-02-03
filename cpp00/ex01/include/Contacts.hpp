@@ -10,6 +10,7 @@
 # define CONTACTS_HPP
 
 # include <iostream>
+# include <string>
 
 class Contacts {
 	private:

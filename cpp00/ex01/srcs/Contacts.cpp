@@ -25,9 +25,11 @@ std::string Contacts::getFirstName(){
 void Contacts::setLastName(std::string lastName) {
 	this->_lastName = lastName;
 }
+
 std::string Contacts::getLastName(){
 	return this->_lastName;
 }
+
 void Contacts::setNickName(std::string nickName) {
 	this->_nickName = nickName;
 }
@@ -38,6 +40,7 @@ std::string Contacts::getNickName(){
 void Contacts::setPhoneNumber(std::string phoneNumber) {
 	this->_phoneNumber = phoneNumber;
 }
+
 std::string Contacts::getPhoneNumber(){
 	return this->_phoneNumber ;
 }
@@ -45,6 +48,7 @@ std::string Contacts::getPhoneNumber(){
 void Contacts::setDarkestSecret(std::string darkestSecret) {
 	this->_darkestSecret = darkestSecret;
 }
+
 std::string Contacts::getDarkestSecret(){
 	return this->_darkestSecret;
 }

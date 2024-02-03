@@ -6,7 +6,6 @@
 # #  * @createdOn   : 01/02/2024
 # #  *=============================================**/
 
-vpath %.c srcs
 NAME=PhoneBook
 ECHO=echo
 YELLOW=\033[1;33m
@@ -14,9 +13,9 @@ GREEN=\033[1;32m
 RED=\033[0;31m
 RESET=\033[0m
 
-SOURCES= PhoneBook.cpp Contacs.cpp main.cpp
+SOURCES= srcs/PhoneBook.cpp srcs/Contacts.cpp srcs/main.cpp
 
-${NAME}: ${SOURCES}
+${NAME}:
 	@${ECHO} "${YELLOW}Compiling $@...${RESET}"
 	@c++ -Wall -Wextra -Werror -std=c++98 -I include ${SOURCES} -o $@
 	@${ECHO} "${GREEN}Compiled!${RESET}"
