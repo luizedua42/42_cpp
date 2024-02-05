@@ -6,14 +6,15 @@
 #  @createdOn   : 05/02/2024
 # =============================================**/
 
-NAME=brain
+NAME=WW3
 ECHO=echo
 YELLOW=\033[1;33m
 GREEN=\033[1;32m
 RED=\033[0;31m
 RESET=\033[0m
 
-SOURCES= main.cpp
+
+SOURCES= src/main.cpp src/HumanA.cpp src/HumanB.cpp src/Weapon.cpp
 
 ${NAME}: ${SOURCES}
 	@${ECHO} "${YELLOW}Compiling $@...${RESET}"
