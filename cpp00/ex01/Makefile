@@ -15,7 +15,7 @@ RESET=\033[0m
 
 SOURCES= srcs/PhoneBook.cpp srcs/Contacts.cpp srcs/main.cpp
 
-${NAME}:
+${NAME}: ${SOURCES}
 	@${ECHO} "${YELLOW}Compiling $@...${RESET}"
 	@c++ -Wall -Wextra -Werror -std=c++98 -I include ${SOURCES} -o $@
 	@${ECHO} "${GREEN}Compiled!${RESET}"
