@@ -36,7 +36,6 @@ void Fixed::setRawBits(int const raw){
 };
 
 int Fixed::getRawBits(void) const{
-	// std::cout << "getRawBits member function called" << std::endl;
 	return _rawBits;
 };
 
@@ -47,13 +46,6 @@ float Fixed::toFloat(void)const {
 int Fixed::toInt()const {
 	return (_rawBits >> _fractBits);
 }
-Fixed& Fixed::operator=(const Fixed& rhs) {
-	// std::cout << "Copy assignment operator called" << std::endl;
-	if(this != &rhs) {
-		_rawBits = rhs.getRawBits();
-	}
-	return *this;
-};
 
 const Fixed Fixed::min(const Fixed& n1, const Fixed& n2){
 	if(n1._rawBits > n2._rawBits)
@@ -75,6 +67,13 @@ Fixed Fixed::max(Fixed& n1, Fixed& n2){
 	if(n1 < n2)
 		return n2;
 	return n1;
+};
+
+Fixed& Fixed::operator=(const Fixed& rhs) {
+	if(this != &rhs) {
+		_rawBits = rhs.getRawBits();
+	}
+	return *this;
 };
 
 std::ostream &operator<<(std::ostream& stream, const Fixed& rhs) {
