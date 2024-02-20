@@ -13,11 +13,8 @@ ClapTrap::ClapTrap(void): _name("John Doe"), _energyPoints(10), _attackDamage(0)
 	std::cout << YELLOW << _name <<" constructed" << RESET << std::endl;
 };
 
-ClapTrap::ClapTrap(std::string name){
-	this->_name = name;
-	this->_attackDamage = 0;
-	this->_energyPoints = 10;
-	this->_hitPoints = 10;
+
+ClapTrap::ClapTrap(std::string name): _name(name), _energyPoints(10), _attackDamage(0), _hitPoints(10){
 	std::cout << YELLOW << _name << " has been constructed" << RESET << std::endl;
 };
 
@@ -61,6 +58,10 @@ void ClapTrap::takeDamage(unsigned int amount){
 	std::cout << TRAP << "ClapTrap " << RESET << this->getName() 
 	<< " has taken "<< RED  << amount << RESET << " points of damage !" << std::endl;
 	this->_hitPoints -= amount;
+	if(this->_hitPoints < 1){
+		std::cout << TRAP "ClapTrap " << RESET << this->getName() << YELLOW " is dead"<< RESET << std::endl;
+		return ;
+	}
 };
 
 void ClapTrap::beRepaired(unsigned int amount){

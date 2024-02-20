@@ -12,7 +12,7 @@
 # include "Colors.hpp"
 
 class ClapTrap {
-	private:
+	protected:
 		std::string _name;
 		int _energyPoints;
 		int _attackDamage;

@@ -7,7 +7,7 @@
 # *========================**/
 
 
-NAME=ClapTrap
+NAME=FragTrap
 ECHO=echo
 YELLOW=\033[1;33m
 GREEN=\033[1;32m
@@ -15,7 +15,7 @@ RED=\033[0;31m
 RESET=\033[0m
 
 
-SOURCES= src/main.cpp src/ClapTrap.cpp
+SOURCES= src/main.cpp src/ClapTrap.cpp src/ScavTrap.cpp src/FragTrap.cpp
 
 ${NAME}: ${SOURCES}
 	@${ECHO} "${YELLOW}Compiling $@...${RESET}"
