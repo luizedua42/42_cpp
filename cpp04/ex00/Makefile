@@ -15,7 +15,7 @@ RED=\033[0;31m
 RESET=\033[0m
 
 
-SOURCES= src/main.cpp src/Dog.cpp src/Cat.cpp src/Animal.cpp
+SOURCES= src/main.cpp src/Dog.cpp src/Cat.cpp src/Animal.cpp src/WrongCat.cpp src/WrongAnimal.cpp
 
 ${NAME}: ${SOURCES}
 	@${ECHO} "${YELLOW}Compiling $@...${RESET}"
