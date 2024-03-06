@@ -7,93 +7,104 @@
 *========================**/
 
 #include "../include/Bureaucrat.hpp"
+#include "../include/Form.hpp"
 
 namespace tests {
-	void DefaultTest(void) {
-		std::cout<< YELLOW << "Default class tests ========================" << RESET << std::endl;
+	void defaultFormTest(void) {
+		std::cout << YELLOW << "Default Form Test ======================================================================" << RESET << std::endl;
 		try {
-			Bureaucrat b1;
-			std::cout << b1 << std::endl;
+			Form f1;
+			std::cout << f1 << std::endl;
 		} catch (std::exception &e) {
 			std::cout << e.what() << std::endl;
 		}
 	}
-	void BureaucratTest(void) {
-		std::cout << YELLOW << "Parametric class tests ====================" << RESET << std::endl;
+	void parametricFormTest(void) {
+		std::cout << YELLOW << "Parametric Form Test ===================================================================" << RESET << std::endl;
 		try {
+			Form f1("Form 1", 1, 1);
+			std::cout << f1 << std::endl;
+		} catch (std::exception &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+	void invalidParametricFormTest(void) {
+		std::cout << YELLOW << "Invalid Parametric Form Test ===========================================================" << RESET << std::endl;
+		std::cout << "Grades are 0" << std::endl;
+		try {
+			Form f1("Form G0", 0, 0);
+			std::cout << f1 << std::endl;
+		} catch (std::exception &e) {
+			std::cout << e.what() << std::endl;
+		}
+		std::cout << "Grades are 151" << std::endl;
+		try {
+			Form f2("Form G151", 151, 151);
+			std::cout << f2 << std::endl;
+		} catch (std::exception &e) {
+			std::cout << e.what() << std::endl;
+		}
+	
+	}
+	void copyFormTest(void) {
+		std::cout << YELLOW << "Copy Form Test =========================================================================" << RESET << std::endl;
+		try {
+			Form f1("Form 1", 1, 1);
+			std::cout << "Form 1: " << f1 << std::endl;
+			std::cout << "Form 1 address: " << &f1 << std::endl;
+			Form f2(f1);
+			std::cout << "Form 2: " << f2 << std::endl;
+			std::cout << "Form 2 address: " << &f2 << std::endl;
+		} catch (std::exception &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+	void signFormTest(void) {
+		std::cout << YELLOW << "Sign Form Test =========================================================================" << RESET << std::endl;
+			Form f1("Form 1", 1, 1);
+			std::cout << f1 << std::endl;
 			Bureaucrat b1("Luiz", 1);
 			std::cout << b1 << std::endl;
+		try {
+			f1.beSigned(b1);
+			f1.signForm();
+		} catch (std::exception &e) {
+			std::cout << e.what() << std::endl;
+		}
+			std::cout << f1 << std::endl;
+	}
+	void invalidSignFormTest(void) {
+		std::cout << YELLOW << "Invalid Sign Form Test =================================================================" << RESET << std::endl;
+		std::cout << "Bureaucrat can't sign" << std::endl;
+			Form f1("Form 1", 1, 1);
+			std::cout << f1 << std::endl;
+			Bureaucrat b1("Luiz", 150);
+			std::cout << b1 << std::endl;
+			std::cout << "Bureaucrat is trying to sign" << std::endl;
+		try {
+			f1.beSigned(b1);
+			f1.signForm();
 		} catch (std::exception &e) {
 			std::cout << e.what() << std::endl;
 		}
 	}
-	void operatorTest(void) {
-		std::cout << YELLOW << "Operator class tests =======================" << RESET << std::endl;
-		try {
-			Bureaucrat b1("Blaine", 1);
-			std::cout << b1 << std::endl;
-		} catch (std::exception &e) {
-			std::cout << e.what() << std::endl;
-		}
-	}
-	void increaseDecreaseTest(void) {
-		std::cout << YELLOW << "Increase/Decrease class tests ==============" << RESET << std::endl;
-		try {
-			Bureaucrat b1("Luiz", rand() % 150 + 1);
-			std::cout << b1 << std::endl;
-			std::cout << "Increasing grade" << std::endl;
-			b1.increaseGrade();
-			std::cout << b1 << std::endl;
-			std::cout << "Decreasing grade" << std::endl;
-			b1.decreaseGrade();
-			std::cout << b1 << std::endl;
-		} catch (std::exception &e) {
-			std::cout << e.what() << std::endl;
-		}
-	}
-	void copyTest(void) {
-		std::cout << YELLOW << "Copy class tests ===========================" << RESET << std::endl;
-		try {
-			Bureaucrat b1("Luiz", 1);
-			std::cout << "Bureaucrat 1: " <<b1 << std::endl;
-			std::cout << "Bureaucrat 1 address: " << &b1 << std::endl;
-			Bureaucrat b2(b1);
-			std::cout << "Bureaucrat 2: " << b2 << std::endl;
-			std::cout << "Bureaucrat 2 address: " << &b2 << std::endl;
-		} catch (std::exception &e) {
-			std::cout << e.what() << std::endl;
-		}
-	}
-	void exceptionTest(void) {
-		std::cout << YELLOW << "Exception class tests ======================" << RESET << std::endl;
-		try {
-			std::cout << "Grade 0 Bureaucrat" << std::endl;
-			Bureaucrat b1("Luiz", 0);
-			std::cout << b1 << std::endl;
-		} catch (std::exception &e) {
-			std::cout << e.what() << std::endl;
-		}
-		try {
-			std::cout << "Grade 151 Bureaucrat" << std::endl;
-			Bureaucrat b1("Luiz", 151);
-			std::cout << b1 << std::endl;
-		} catch (std::exception &e) {
-			std::cout << e.what() << std::endl;
-		}
-	}
-
 
 }
 
 
 int main(void) {
-	std::cout << GREEN << "==============Bureaucrat tests==============" << RESET << std::endl;
-	tests::DefaultTest();
-	tests::BureaucratTest();
-	tests::operatorTest();
-	tests::increaseDecreaseTest();
-	tests::copyTest();
-	tests::exceptionTest();
-
+	std::cout << GREEN << "=======================================Form tests=======================================" << RESET << std::endl;
+	std::cout << std::endl;
+	tests::defaultFormTest();
+	std::cout << std::endl;
+	tests::parametricFormTest();
+	std::cout << std::endl;
+	tests::invalidParametricFormTest();
+	std::cout << std::endl;
+	tests::copyFormTest();
+	std::cout << std::endl;
+	tests::signFormTest();
+	std::cout << std::endl;
+	tests::invalidSignFormTest();
 	return 0;
 }

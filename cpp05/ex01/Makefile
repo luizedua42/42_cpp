@@ -7,7 +7,7 @@
 # *========================**/
 
 
-NAME=Bureaucrat
+NAME=Form
 ECHO=echo
 YELLOW=\033[1;33m
 GREEN=\033[1;32m
@@ -15,7 +15,7 @@ RED=\033[0;31m
 RESET=\033[0m
 
 
-SOURCES= src/main.cpp src/Bureaucrat.cpp
+SOURCES= src/main.cpp src/Bureaucrat.cpp src/Form.cpp
 
 ${NAME}: ${SOURCES}
 	@${ECHO} "${YELLOW}Compiling $@...${RESET}"
