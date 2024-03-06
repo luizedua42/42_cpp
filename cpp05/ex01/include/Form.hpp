@@ -34,7 +34,8 @@ class Form {
 		~Form(void);
 		Form& operator=(const Form& rhs);
 
-		void beSigned(const Bureaucrat& rhs);
+		void beSigned(const Bureaucrat& rhs)
+			throw(GradeTooLowException);
 		void signForm(void);
 		const std::string getName(void) const;
 		bool getSigned(void) const;

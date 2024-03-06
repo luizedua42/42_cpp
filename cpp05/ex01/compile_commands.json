@@ -1,6 +1,6 @@
 [
  {
-  "directory": "/nfs/homes/luizedua/42_projects/cpp/42_cpp/cpp05/ex00",
+  "directory": "/nfs/homes/luizedua/42_projects/cpp/42_cpp/cpp05/ex01",
   "arguments": [
    "c++",
    "-g3",
@@ -12,9 +12,10 @@
    "include",
    "src/main.cpp",
    "src/Bureaucrat.cpp",
+   "src/Form.cpp",
    "-o",
-   "Bureaucrat"
+   "Form"
   ],
-  "file": "src/Bureaucrat.cpp"
+  "file": "src/Form.cpp"
  }
 ]

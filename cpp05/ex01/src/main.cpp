@@ -87,6 +87,7 @@ namespace tests {
 		} catch (std::exception &e) {
 			std::cout << e.what() << std::endl;
 		}
+		std::cout << f1 << std::endl;
 	}
 
 }

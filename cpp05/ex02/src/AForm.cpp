@@ -1,32 +1,36 @@
 /**======================
 *            42sp
-* @file      : Form.cpp
+* @file      : AForm.cpp
 * @author    : luizedua
 * @email     : luizedua@student.42sp.org.br
 * @createdOn : 06/03/2024
 *========================**/
 
-#include "../include/Form.hpp"
+#include "../include/AForm.hpp"
 
 // Exceptions====================================================================
-const char* Form::GradeTooHighException::what() const throw() {
+const char* AForm::GradeTooHighException::what() const throw() {
 	return "Grade too high";
 };
 
-const char* Form::GradeTooLowException::what() const throw() {
+const char* AForm::GradeTooLowException::what() const throw() {
 	return "Grade too low";
+};
+
+const char* AForm::NotSignedException::what() const throw() {
+	return "Form not signed";
 };
 
 // Constructors&Destructors=====================================================
 
-Form::Form(): _name("Default Form"), _gradeToSign(150), _gradeToExecute(150){
+AForm::AForm(): _name("Default AForm"), _gradeToSign(150), _gradeToExecute(150){
 	std::cout << GREEN << "Default constructor called" << RESET << std::endl;
 	const_cast<int&>(_gradeToSign) = rand() % 150 + 1;
 	const_cast<int&>(_gradeToExecute) = rand() % 150 + 1;
 	_signed = false;	
 };
 
-Form::Form(std::string const name, int gradeToSign, int gradeToExecute)
+AForm::AForm(std::string const name, int gradeToSign, int gradeToExecute)
 throw(GradeTooHighException, GradeTooLowException): 
 _name(name), _gradeToSign(gradeToSign), _gradeToExecute(gradeToExecute), _signed(false){
 	std::cout << MAGENTA << "Parametric constructor called" << RESET << std::endl;
@@ -37,13 +41,13 @@ _name(name), _gradeToSign(gradeToSign), _gradeToExecute(gradeToExecute), _signed
 	}
 };
 
-Form::Form(const Form& rhs): _name(rhs._name), _gradeToSign(rhs._gradeToSign), _gradeToExecute(rhs._gradeToExecute){
+AForm::AForm(const AForm& rhs): _name(rhs._name), _gradeToSign(rhs._gradeToSign), _gradeToExecute(rhs._gradeToExecute){
 	std::cout << MAGENTA << "Copy constructor called" << RESET << std::endl;
 	_signed = rhs._signed;
 	*this = rhs;
 };
 
-Form::~Form(void){
+AForm::~AForm(void){
 	std::cout << RED << "Destructor called" << RESET << std::endl;
 };
 
@@ -51,43 +55,51 @@ Form::~Form(void){
 
 // Methods=======================================================================
 
-void Form::beSigned(const Bureaucrat& rhs)
+void AForm::beSigned(const Bureaucrat& rhs)
 throw(GradeTooLowException) {
-	if (rhs.getGrade() > _gradeToSign) {
-		throw Form::GradeTooLowException();
-	}
+	if (rhs.getGrade() <= _gradeToSign) {
 		_signed = true;
-};
-
-void Form::signForm(void) {
-	if (_signed) {
-		std::cout << GREEN << "Form " << _name << " signed" << RESET << std::endl;
 	} else {
-		std::cout << RED << "Form " << _name << " not signed" << RESET << std::endl;
+		throw AForm::GradeTooLowException();
 	}
 };
 
-const std::string Form::getName(void) const {
+void AForm::signAForm(void) {
+	if (_signed) {
+		std::cout << GREEN << "AForm " << _name << " signed" << RESET << std::endl;
+	} else {
+		std::cout << RED << "AForm " << _name << " not signed" << RESET << std::endl;
+	}
+};
+
+const std::string AForm::getName(void) const {
 	return _name;
 };
 
-bool Form::getSigned(void) const {
+bool AForm::getSigned(void) const {
 	return _signed;
 };
 
-int Form::getGradeToSign(void) const {
+int AForm::getGradeToSign(void) const {
 	return _gradeToSign;
 };
 
-int Form::getGradeToExecute(void) const {
+int AForm::getGradeToExecute(void) const {
 	return _gradeToExecute;
 };
 
-
+void AForm::execute(Bureaucrat const & executor) const
+throw(GradeTooLowException, NotSignedException) {
+	if (!_signed) {
+		throw AForm::NotSignedException();
+	} else if (executor.getGrade() > _gradeToExecute) {
+		throw AForm::GradeTooLowException();
+	}
+};
 
 // Operators=====================================================================
 
-Form& Form::operator=(const Form& rhs){
+AForm& AForm::operator=(const AForm& rhs){
 	std::cout << MAGENTA << "Copy assignment operator called" << RESET << std::endl;
 	const_cast<std::string&>(_name) = rhs.getName();
 	const_cast<int&>(_gradeToSign) = rhs.getGradeToSign();
@@ -97,8 +109,8 @@ Form& Form::operator=(const Form& rhs){
 	return *this;
 };
 
-std::ostream& operator<<(std::ostream& os, const Form& rhs) {
-	os << "Form " << rhs.getName() << " is ";
+std::ostream& operator<<(std::ostream& os, const AForm& rhs) {
+	os << "AForm " << rhs.getName() << " is ";
 	if (rhs.getSigned() == true) {
 		os << "signed";
 	} else {
