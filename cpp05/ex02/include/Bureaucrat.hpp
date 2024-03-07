@@ -41,7 +41,8 @@ class Bureaucrat {
 		void increaseGrade(void);
 		void decreaseGrade(void);
 		void executeForm(AForm const & form);
-		
+		void signForm(AForm & form);
+
 		Bureaucrat& operator=(const Bureaucrat& rhs);
 };
 

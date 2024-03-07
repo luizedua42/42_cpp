@@ -64,14 +64,6 @@ throw(GradeTooLowException) {
 	}
 };
 
-void AForm::signAForm(void) {
-	if (_signed) {
-		std::cout << GREEN << "AForm " << _name << " signed" << RESET << std::endl;
-	} else {
-		std::cout << RED << "AForm " << _name << " not signed" << RESET << std::endl;
-	}
-};
-
 const std::string AForm::getName(void) const {
 	return _name;
 };

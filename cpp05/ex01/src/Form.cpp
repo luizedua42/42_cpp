@@ -59,14 +59,6 @@ throw(GradeTooLowException) {
 		_signed = true;
 };
 
-void Form::signForm(void) {
-	if (_signed) {
-		std::cout << GREEN << "Form " << _name << " signed" << RESET << std::endl;
-	} else {
-		std::cout << RED << "Form " << _name << " not signed" << RESET << std::endl;
-	}
-};
-
 const std::string Form::getName(void) const {
 	return _name;
 };

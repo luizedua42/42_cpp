@@ -6,11 +6,13 @@
 * @createdOn : 06/03/2024
 *========================**/
 
+#pragma once
 #ifndef FORM_HPP
 # define FORM_HPP
 # include <iostream>
 # include "Bureaucrat.hpp"
 
+class Bureaucrat;
 class Form {
 	private:
 		const std::string _name;
@@ -36,7 +38,6 @@ class Form {
 
 		void beSigned(const Bureaucrat& rhs)
 			throw(GradeTooLowException);
-		void signForm(void);
 		const std::string getName(void) const;
 		bool getSigned(void) const;
 		int getGradeToSign(void) const;

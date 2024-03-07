@@ -45,7 +45,6 @@ class AForm {
 		// Getters ===============================================================
 		void beSigned(const Bureaucrat& rhs)
 		throw(GradeTooLowException);
-		void signAForm(void);
 		const std::string getName(void) const;
 		bool getSigned(void) const;
 		int getGradeToSign(void) const;

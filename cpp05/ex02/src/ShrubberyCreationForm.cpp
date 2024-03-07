@@ -10,8 +10,13 @@
 #include <fstream>
 
 ShrubberyCreationForm::ShrubberyCreationForm() : 
-AForm("ShrubberyCreationForm", 145, 137) {
+AForm("ShrubberyCreationForm", 145, 137), _target("default"){
 	std::cout << "Default Shrubbery constructor called" << std::endl;
+};
+
+ShrubberyCreationForm::ShrubberyCreationForm(std::string const target) :
+AForm("ShrubberyCreationForm", 145, 137), _target(target){
+	std::cout << "Param Shrubbery constructor called" << std::endl;
 };
 
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& rhs) : 
@@ -43,17 +48,35 @@ throw(std::ios_base::failure){
 	if(!out.is_open() || out.fail()){
 		throw(std::ios_base::failure("Error: could not open file"));
 	}
-	out<<"      /\\      "<<std::endl;
-	out<<"     /\\*\\     "<<std::endl;
-	out<<"    /\\O\\*\\    "<<std::endl;
-	out<<"   /*/\\/\\/\\   "<<std::endl;
-	out<<"  /\\O\\/\\*\\/\\  "<<std::endl;
-	out<<" /\\*\\/\\*\\/\\/\\ "<<std::endl;
-	out<<"/\\O\\/\\/*/\\/O/\\"<<std::endl;
-	out<<"      ||      "<<std::endl;
-	out<<"      ||      "<<std::endl;
-	out<<"      ||      "<<std::endl;
-	out<<std::endl;
+	out << "                                                     . "<< "                                                     . "<< std::endl;
+	out << "                                      .         ;      "<< "                                      .         ;      "<< std::endl;
+	out << "         .              .              ;%     ;;       "<< "         .              .              ;%     ;;       "<< std::endl;
+	out << "           ,           ,                :;%  %;        "<< "           ,           ,                :;%  %;        "<< std::endl;
+	out << "            :         ;                   :;%;'     ., "<< "            :         ;                   :;%;'     ., "<< std::endl;
+	out << "   ,.        %;     %;            ;        %;'    ,;   "<< "   ,.        %;     %;            ;        %;'    ,;"   << std::endl;
+	out << "     ;       ;%;  %%;        ,     %;    ;%;    ,%'    "<< "     ;       ;%;  %%;        ,     %;    ;%;    ,%'"    << std::endl;
+	out << "      %;       %;%;      ,  ;       %;  ;%;   ,%;'     "<< "      %;       %;%;      ,  ;       %;  ;%;   ,%;' "    << std::endl;
+	out << "       ;%;      %;        ;%;        % ;%;  ,%;'       "<< "       ;%;      %;        ;%;        % ;%;  ,%;'"       << std::endl;
+	out << "        `%;.     ;%;     %;'         `;%%;.%;'         "<< "        `%;.     ;%;     %;'         `;%%;.%;'"         << std::endl;
+	out << "         `:;%.    ;%%. %@;        %; ;@%;%'            "<< "         `:;%.    ;%%. %@;        %; ;@%;%'"            << std::endl;
+	out << "            `:%;.  :;bd%;          %;@%;'              "<< "            `:%;.  :;bd%;          %;@%;'"              << std::endl;
+	out << "              `@%:.  :;%.         ;@@%;'               "<< "              `@%:.  :;%.         ;@@%;'   "            << std::endl;
+	out << "                `@%.  `;@%.      ;@@%;                 "<< "                `@%.  `;@%.      ;@@%;         "        << std::endl;
+	out << "                  `@%%. `@%%    ;@@%;                  "<< "                  `@%%. `@%%    ;@@%;        "          << std::endl;
+	out << "                    ;@%. :@%%  %@@%;                   "<< "                    ;@%. :@%%  %@@%;       "            << std::endl;
+	out << "                      %@bd%%%bd%%:;                    "<< "                      %@bd%%%bd%%:;     "               << std::endl;
+	out << "                        #@%%%%%:;;                     "<< "                        #@%%%%%:;;"                     << std::endl;
+	out << "                        %@@%%%::;                      "<< "                        %@@%%%::;"                      << std::endl;
+	out << "                        %@@@%(o);  . '                 "<< "                        %@@@%(o);  . '         "        << std::endl;
+	out << "                        %@@@o%;:(.,'                   "<< "                        %@@@o%;:(.,'         "          << std::endl;
+	out << "                    `.. %@@@o%::;                      "<< "                    `.. %@@@o%::;         "             << std::endl;
+	out << "                       `)@@@o%::;                      "<< "                       `)@@@o%::;         "             << std::endl;
+	out << "                        %@@(o)::;                      "<< "                        %@@(o)::;        "              << std::endl;
+	out << "                       .%@@@@%::;                      "<< "                       .%@@@@%::;         "             << std::endl;
+	out << "                       ;%@@@@%::;.                     "<< "                       ;%@@@@%::;.          "           << std::endl;
+	out << "                      ;%@@@@%%:;;;.                    "<< "                      ;%@@@@%%:;;;. "                   << std::endl;
+	out << "                  ...;%@@@@@%%:;;;;,..                 "<< "                  ...;%@@@@@%%:;;;;,.."                 << std::endl;
+
 	if(out.fail())
 		throw(std::ios_base::failure("Error: could not write to file"));
 	out.close();

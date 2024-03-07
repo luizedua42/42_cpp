@@ -77,6 +77,14 @@ void Bureaucrat::decreaseGrade(void) {
 	_grade++;
 };
 
+void Bureaucrat::signForm(Form& form) {
+	try{
+		form.beSigned(*this);
+		std::cout << *this << " signed " << form.getName() << std::endl;
+	} catch (std::exception& e) {
+		std::cout << *this << " cannot sign " << form.getName() << " because " << e.what() << std::endl;
+	}
+};
 
 
 // Operators ==================================================================

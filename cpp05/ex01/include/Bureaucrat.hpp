@@ -6,14 +6,15 @@
 * @createdOn : 06/03/2024
 *========================**/
 
+#pragma once
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 # include <iostream>
 # include <cstdlib>
 # include "Colors.hpp"
+# include "Form.hpp"
 
-
-
+class Form;
 class GradeTooHighException : public std::exception {
 	public:
 		virtual const char* what() const throw();
@@ -41,6 +42,7 @@ class Bureaucrat {
 		int getGrade(void) const;
 		void increaseGrade(void);
 		void decreaseGrade(void);
+		void signForm(Form& form);
 		
 		Bureaucrat& operator=(const Bureaucrat& rhs);
 };

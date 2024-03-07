@@ -61,17 +61,17 @@ namespace tests {
 	}
 	void signFormTest(void) {
 		std::cout << YELLOW << "Sign Form Test =========================================================================" << RESET << std::endl;
-			Form f1("Form 1", 1, 1);
-			std::cout << f1 << std::endl;
-			Bureaucrat b1("Luiz", 1);
-			std::cout << b1 << std::endl;
-		try {
-			f1.beSigned(b1);
-			f1.signForm();
-		} catch (std::exception &e) {
-			std::cout << e.what() << std::endl;
-		}
-			std::cout << f1 << std::endl;
+		std::cout << "Bureaucrat can sign" << std::endl;
+			try {
+				Form f1("Form 1", 1, 1);
+				std::cout << f1 << std::endl;
+				Bureaucrat b1("Luiz", 1);
+				std::cout << b1 << std::endl;
+				std::cout << "Bureaucrat is trying to sign" << std::endl;
+				b1.signForm(f1);
+			} catch (std::exception &e) {
+				std::cout << e.what() << std::endl;
+			}
 	}
 	void invalidSignFormTest(void) {
 		std::cout << YELLOW << "Invalid Sign Form Test =================================================================" << RESET << std::endl;
@@ -82,8 +82,7 @@ namespace tests {
 			std::cout << b1 << std::endl;
 			std::cout << "Bureaucrat is trying to sign" << std::endl;
 		try {
-			f1.beSigned(b1);
-			f1.signForm();
+			b1.signForm(f1);
 		} catch (std::exception &e) {
 			std::cout << e.what() << std::endl;
 		}
