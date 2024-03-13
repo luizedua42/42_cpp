@@ -16,7 +16,6 @@
 #include <typeinfo>
 
 Base* generate(void){
-	srand(time(NULL));
 	int i = rand() % 3;
 	switch (i){
 		case 0:
@@ -65,12 +64,16 @@ void identify(Base& p){
 }
 
 int main(void){
-	std::cout << YELLOW << "Generating random Class ... ====================================================" << RESET << std::endl;
-	Base *rndclass = generate();
-	std::cout << YELLOW << "Identifying Ptr ... ============================================================" << RESET << std::endl;
-	identify(rndclass);
-	std::cout << YELLOW << "Identifying Ref ... ============================================================" << RESET << std::endl;
-	identify(*rndclass);
-	delete rndclass;
+	srand(time(NULL));
+	for(int i = 0; i < 10; i++){
+		std::cout << YELLOW << "Generating random Class ... ====================================================" << RESET << std::endl;
+		Base *rndclass = generate();
+		std::cout << YELLOW << "Identifying Ptr ... ============================================================" << RESET << std::endl;
+		identify(rndclass);
+		std::cout << YELLOW << "Identifying Ref ... ============================================================" << RESET << std::endl;
+		identify(*rndclass);
+		delete rndclass;
+		std::cout << std::endl;
+	}
 	return 0;
 }
