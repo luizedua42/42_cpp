@@ -9,7 +9,7 @@
 # include "../include/Data.hpp"
 
 Data::Data(): _data(0){
-	std::cout << MAGENTA << "Default constructor called" << RESET << std::endl;
+	std::cout << MAGENTA << "Default Data constructor called" << RESET << std::endl;
 }
 Data::Data(const Data& rhs){
 	std::cout << MAGENTA << "Copy constructor called" << RESET << std::endl;
