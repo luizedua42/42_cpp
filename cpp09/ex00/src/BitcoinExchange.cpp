@@ -53,24 +53,50 @@ void BitcoinExchange::createDB(std::string date, double value) {
 	_exchange[date] = value;
 }
 
-void BitcoinExchange::printDB(void) {
-	for(std::map<std::string, double>::iterator it = _exchange.begin(); it != _exchange.end(); it++) {
-		std::cout << it->first << " | " << it->second << std::endl;
+bool isValidDate(std::string date) {
+	if(date.length() != 10) {
+		return false;
+	}
+	else if(date.substr(4,1) != "-" || date.substr(7,1) != "-") {
+		return false;
+	}
+	else if(date.substr(0,4) < "2000" || date.substr(0,4) > "2024") {
+		return false;
+	}
+	else if(date.substr(5,2) < "01" || date.substr(5,2) > "12") {
+		return false;
+	}
+	else if(date.substr(8,2) < "01" || date.substr(8,2) > "31") {
+		return false;
+	}
+	return true;
+}
+void BitcoinExchange::printDB(std::string date, double rate) {
+	if (!isValidDate(date)) {
+		std::cout << "Error: bad input => " << date << std::endl;
+		return;
+	}
+
+	double result = getValue(date) * rate;
+	
+	if(result > 1000){
+		std::cout << "Error: too large a number." << std::endl;
+	}
+	else if (result < 0) {
+		std::cout << "Error: not a positive number." << std::endl;
+	}	
+	else {
+		std::cout << date << " => " << result << std::endl;
 	}
 }
 
 double BitcoinExchange::getValue(std::string date) const {
-	//find date in map, if not found, find closest date before it and return that value
-	std::map<std::string, double>::const_iterator it = _exchange.find(date);
-	if(it != _exchange.end()) {
-		return it->second;
+	std::map<std::string, double>::const_iterator it = _exchange.lower_bound(date);
+	if(it == _exchange.begin() && it->first != date) {
+		return 0;
 	}
-	else {
-		std::map<std::string, double>::const_iterator it = _exchange.lower_bound(date);
-		if(it == _exchange.begin()) {
-			throw std::invalid_argument("Date not found");
-		}
-		it--;
-		return it->second;
+	if(it != _exchange.begin() && it->first != date) {
+		return (--it)->second;
 	}
+	return it->second;
 }

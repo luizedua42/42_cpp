@@ -25,7 +25,7 @@ class BitcoinExchange {
 		BitcoinExchange& operator=(const BitcoinExchange& rhs);
 		void readDB(void);
 		void createDB(std::string date, double value);
-		void printDB(void);
+		void printDB(std::string date, double rate);
 		double getValue(std::string date) const;
 };
 
