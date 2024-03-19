@@ -60,10 +60,13 @@ bool isValidDate(std::string date) {
 	else if(date.substr(4,1) != "-" || date.substr(7,1) != "-") {
 		return false;
 	}
-	else if(date.substr(0,4) < "2000" || date.substr(0,4) > "2024") {
+	else if(date.substr(0,4) < "2000") {
 		return false;
 	}
 	else if(date.substr(5,2) < "01" || date.substr(5,2) > "12") {
+		return false;
+	}
+	else if(date.substr(5,2) == "02" && date.substr(8,2) > "29") {
 		return false;
 	}
 	else if(date.substr(8,2) < "01" || date.substr(8,2) > "31") {
