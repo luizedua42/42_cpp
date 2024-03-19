@@ -79,15 +79,10 @@ void BitcoinExchange::printDB(std::string date, double rate) {
 
 	double result = getValue(date) * rate;
 	
-	if(result > 1000){
-		std::cout << "Error: too large a number." << std::endl;
-	}
-	else if (result < 0) {
+	if (result < 0)
 		std::cout << "Error: not a positive number." << std::endl;
-	}	
-	else {
+	else
 		std::cout << date << " => " << result << std::endl;
-	}
 }
 
 double BitcoinExchange::getValue(std::string date) const {

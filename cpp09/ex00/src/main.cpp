@@ -30,7 +30,10 @@ void execInput(std::string input, BitcoinExchange& exchange){
 		date = line.substr(0, line.find(" | "));
 		std::istringstream iss(line.substr(line.find(" | ")+3, line.length()));
 		iss >> rate;
-		exchange.printDB(date, rate);
+		if (rate > 1000)
+			std::cout << "Error: too large a number" << std::endl;
+		else
+			exchange.printDB(date, rate);
 	}
 }
 int main(int argc, char **argv) {
