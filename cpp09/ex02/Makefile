@@ -7,7 +7,7 @@
 # *========================**/
 
 
-NAME=RPN
+NAME=PmergeMe
 ECHO=echo
 YELLOW=\033[1;33m
 GREEN=\033[1;32m
@@ -17,17 +17,17 @@ C++ = c++
 CFLAGS = -Wall -Werror -Wextra -g3 -std=c++98
 
 
-HEADER_FILES = ./include/RPN.hpp
-SOURCES      = ./src/main.cpp ./src/RPN.cpp ./src/utils.cpp
+HEADER_FILES = ./include/PmergeMe.hpp
+SOURCES      = ./src/main.cpp ./src/PmergeMe.cpp
 OBJ_DIR      = ./mandatory/obj
 OBJ_FILES    = $(SRC_FILES:%.c=$(OBJ_DIR)/%.o)
-INCLUDE =	-I ./include/RPN.hpp
+INCLUDE      = -I ./include/PmergeMe.hpp
 
 all : ${NAME}
 
 ${NAME}: ${SOURCES}
 	@${ECHO} "${YELLOW}Compiling $@...${RESET}"
-	@${C++} ${CFLAGS} ${INCLUDE} ${SOURCES} -o $@
+	@c++ -g3 -Wall -Wextra -Werror -std=c++98 -I include ${SOURCES} -o $@
 	@${ECHO} "${GREEN}Compiled!${RESET}"
 
 

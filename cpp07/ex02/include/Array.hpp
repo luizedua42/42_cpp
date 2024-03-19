@@ -21,6 +21,7 @@ class Array {
 		Array(const Array& rhs);
 		~Array(void);
 		Array& operator=(const Array& rhs);
+		Array& operator[](unsigned int i) throw(std::out_of_range);
 		unsigned int size(void) const;
 };
 

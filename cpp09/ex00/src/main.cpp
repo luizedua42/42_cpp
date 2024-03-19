@@ -42,7 +42,17 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 	BitcoinExchange exchange;
-	exchange.readDB();
-	execInput(argv[1], exchange);
+	try{
+		exchange.readDB();
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+		return 1;
+	}
+	try{
+		execInput(argv[1], exchange);
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+		return 1;
+	}
 	return 0;
 }

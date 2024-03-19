@@ -53,6 +53,16 @@ Array<T>& Array<T>::operator=(const Array& rhs) {
 };
 
 template< typename T >
+T& Array<T>::operator[](unsigned int i) throw(std::out_of_range) {
+	if (i >= this->_size) {
+		throw std::out_of_range("Index out of range");
+	}
+	if(_array == NULL)
+		throw std::out_of_range("Array is empty");
+	return this->_array[i];
+};
+
+template< typename T >
 unsigned int Array<T>::size(void) const {
 	return this->_size;
 };
