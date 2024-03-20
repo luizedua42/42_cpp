@@ -9,6 +9,30 @@
 #include "../include/PmergeMe.hpp"
 #include <sstream>
 
+namespace utils {
+
+	std::deque< std::pair<int, int> > pairDeq(std::deque<int> &deq) {
+		std::deque<int>::iterator it = deq.begin();
+		std::deque<int>::iterator ite = deq.end();
+		std::deque< std::pair<int, int> > pair;
+		for(int i = 0; it != ite; i++, it++) {
+			pair[i] = std::make_pair(*it, *(it + 1));
+		}
+		return pair;
+	}
+
+	std::deque< std::pair<int, int> > pairVec(std::vector<int> &vec) {
+		std::vector<int>::iterator it = vec.begin();
+		std::vector<int>::iterator ite = vec.end();
+		std::deque< std::pair<int, int> > pair;
+		for(int i = 0; it != ite; i++, it++) {
+			pair[i] = std::make_pair(*it, *(it + 1));
+		}
+		return pair;
+	}
+
+	
+}
 PmergeMe::PmergeMe() : _intD(), _intV(){};
 
 PmergeMe::PmergeMe(const PmergeMe& rhs){
