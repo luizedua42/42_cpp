@@ -26,10 +26,10 @@ class PmergeMe {
 		void processInput(char **argv);
 		void validateInput(void);
 		void printContainers(void);
-		void catchVecStraggler(std::vector<int> &vec);
-		void catchDeqStraggler(std::deque<int> &deq);
-		void setStraggler(int straggler);
-		int getStraggler(void);
+		void catchStraggler(std::vector<int> &vec);
+		void catchStraggler(std::deque<int> &deq);
+		std::vector<int> fordSortVec(void);
+		std::deque<int> fordSortDeq(void);
 	}
 ;
 

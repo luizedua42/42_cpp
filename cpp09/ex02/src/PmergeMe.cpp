@@ -49,7 +49,7 @@ namespace utils {
 		}
 	}
 
-	void sortVecP(std::vector< std::pair<int, int> > &vec) {
+	void mergeSortVec(std::vector< std::pair<int, int> > &vec) {
 		std::vector< std::pair<int, int> > left;
 		std::vector< std::pair<int, int> > right;
 		if (vec.size() > 1) {
@@ -60,8 +60,8 @@ namespace utils {
 			for (size_t i = mid; i < vec.size(); i++) {
 				right.push_back(vec[i]);
 			}
-			sortVecP(left);
-			sortVecP(right);
+			mergeSortVec(left);
+			mergeSortVec(right);
 			size_t i = 0;
 			size_t j = 0;
 			size_t k = 0;
@@ -88,9 +88,59 @@ namespace utils {
 		}
 	}
 
+		void mergeSortDeq(std::deque< std::pair<int, int> > &deq) {
+		std::deque< std::pair<int, int> > left;
+		std::deque< std::pair<int, int> > right;
+		if (deq.size() > 1) {
+			size_t mid = deq.size() / 2;
+			for (size_t i = 0; i < mid; i++) {
+				left.push_back(deq[i]);
+			}
+			for (size_t i = mid; i < deq.size(); i++) {
+				right.push_back(deq[i]);
+			}
+			mergeSortDeq(left);
+			mergeSortDeq(right);
+			size_t i = 0;
+			size_t j = 0;
+			size_t k = 0;
+			while (i < left.size() && j < right.size()) {
+				if (left[i].first < right[j].first) {
+					deq[k] = left[i];
+					i++;
+				} else {
+					deq[k] = right[j];
+					j++;
+				}
+				k++;
+			}
+			while (i < left.size()) {
+				deq[k] = left[i];
+				i++;
+				k++;
+			}
+			while (j < right.size()) {
+				deq[k] = right[j];
+				j++;
+				k++;
+			}
+		}
+	}
+
 	 void insertionSortVec(std::vector<int> &Sv, std::vector<int> &Pv) {
 		for (size_t i = 1; i < Pv.size(); i++) {
 			std::vector<int>::iterator it = std::upper_bound(Sv.begin(), Sv.end(), Pv[i]);
+			if(it != Sv.end())
+				Sv.insert(it, Pv[i]);
+			else
+				Sv.push_back(Pv[i]);
+		}
+		Pv.erase(Pv.begin(), Pv.end());
+	}
+
+	 void insertionSortDeq(std::deque<int> &Sv, std::deque<int> &Pv) {
+		for (size_t i = 1; i < Pv.size(); i++) {
+			std::deque<int>::iterator it = std::upper_bound(Sv.begin(), Sv.end(), Pv[i]);
 			if(it != Sv.end())
 				Sv.insert(it, Pv[i]);
 			else
@@ -165,87 +215,66 @@ void PmergeMe::processInput(char **argv) {
 	PmergeMe::validateInput();
 }
 
-void PmergeMe::setStraggler(int straggler) {
-	_straggler = straggler;
-}
 
-int PmergeMe::getStraggler(void) {
-	return _straggler;
-}
-
-void PmergeMe::catchVecStraggler(std::vector<int> &vec) {
+void PmergeMe::catchStraggler(std::vector<int> &vec) {
 	_straggler = vec[vec.size() - 1];
 	vec.pop_back();
 }
 
-void PmergeMe::printContainers(void) {
+void PmergeMe::catchStraggler(std::deque<int> &deq) {
+	_straggler = deq[deq.size() - 1];
+	deq.pop_back();
+}
+
+std::vector<int> PmergeMe::fordSortVec(void) {
 	bool has_straggler = false;
 	std::vector<int> Sv;
-	std::cout << "VECTOR =======================" << std::endl;
+	std::vector<int> Vpending;
+
 	if (_intV.size() % 2 != 0) {
-		PmergeMe::catchVecStraggler(_intV);
+		PmergeMe::catchStraggler(_intV);
 		has_straggler = _straggler != 0;
 	}
-	if ( has_straggler ) {
-		std::cout << "Straggler: " << _straggler << std::endl;
-	}
 	std::vector< std::pair<int, int> > pairs = utils::pairVec(_intV);
-	for (size_t i = 0; i < pairs.size(); i++) {
-		std::cout << pairs[i].first << ':' << pairs[i].second;
-		if (i < pairs.size() - 1) {
-			std::cout << " ";
-		}
-	}
-	std::cout << std::endl;
-
 	utils::sortMaxVec(pairs);
-	for (size_t i = 0; i < pairs.size(); i++) {
-		std::cout << pairs[i].first << ':' << pairs[i].second;
-		if (i < pairs.size() - 1) {
-			std::cout << " ";
-		}
-	}
-	std::cout << std::endl;
-
-	utils::sortVecP(pairs);
-	for (size_t i = 0; i < pairs.size(); i++) {
-		std::cout << pairs[i].first << ':' << pairs[i].second;
-		if (i < pairs.size() - 1) {
-			std::cout << " ";
-		}
-	}
-	std::cout << std::endl;
-	std::cout << std::endl;
-
-	std::vector<int> Vpending;
+	utils::mergeSortVec(pairs);
 	utils::unpairVector(pairs, Vpending, Sv);
 	if(has_straggler)
 		Vpending.push_back(_straggler);
-	std::cout << "Sv: ";
-	for (size_t i = 0; i < Sv.size(); i++) {
-		std::cout << Sv[i];
-		if (i < Sv.size() - 1) {
-			std::cout << " ";
-		}
+	utils::insertionSortVec(Sv, Vpending);
+	return Sv;
+}
+
+std::deque<int> PmergeMe::fordSortDeq(void) {
+	bool has_straggler = false;
+	std::deque<int> Sd;
+	std::deque<int> Dpending;
+
+	if (_intD.size() % 2 != 0) {
+		PmergeMe::catchStraggler(_intD);
+		has_straggler = _straggler != 0;
+	}
+	std::deque< std::pair<int, int> > pairs = utils::pairDeq(_intD);
+	utils::sortMaxDeque(pairs);
+	utils::mergeSortDeq(pairs);
+	utils::unpairDeque(pairs, Dpending);
+	if(has_straggler)
+		Dpending.push_back(_straggler);
+	utils::insertionSortDeq(Sd, Dpending);
+	return Sd;
+}
+
+void PmergeMe::printContainers(void) {
+	std::cout << "Before: ";
+	for (size_t i = 0; i < _intV.size(); i++) {
+		std::cout << _intV[i] << " ";
 	}
 	std::cout << std::endl;
-	std::cout << "Vpend:";
-	for (size_t i = 0; i < Vpending.size(); i++) {
-		std::cout << Vpending[i];
-		if (i < Vpending.size() - 1) {
-			std::cout << " ";
-		}
+	PmergeMe::fordSortVec();
+	std::cout << "After: ";
+	for (size_t i = 0; i < _intV.size(); i++) {
+		std::cout << _intV[i] << " ";
 	}
 	std::cout << std::endl;
 
-	utils::insertionSortVec(Sv, Vpending);
-	std::cout << "Sv: ";
-	for (size_t i = 0; i < Sv.size() - 1; i++) {
-		std::cout << Sv[i];
-		if (i < Sv.size() - 1) {
-			std::cout << " ";
-		}
-	}
-	std::cout << std::endl;
-	std::cout << std::endl;
 }
