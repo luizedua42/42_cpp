@@ -16,15 +16,21 @@ class PmergeMe {
 	private:
 		std::vector<int> _intV;
 		std::deque<int> _intD;
+		int _straggler;
 	public:
+		bool has_straggler;
 		PmergeMe(void);
 		PmergeMe(const PmergeMe& rhs);
 		~PmergeMe(void);
 		PmergeMe& operator=(const PmergeMe& rhs);
 		void processInput(char **argv);
 		void validateInput(void);
-		void sortDeque(void);
-		void sortVector(void);
-};
+		void printContainers(void);
+		void catchVecStraggler(std::vector<int> &vec);
+		void catchDeqStraggler(std::deque<int> &deq);
+		void setStraggler(int straggler);
+		int getStraggler(void);
+	}
+;
 
 # endif
