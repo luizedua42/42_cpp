@@ -10,12 +10,14 @@
 #include <sstream>
 #include <algorithm>
 #include <ctime>
+#include <iomanip>
+#include <exception>
 
 #define CLOCKS_PER_MS 1000000
 namespace utils {
 	std::deque< std::pair<int, int> > pairDeq(std::deque<int> &deq) {
 		if(deq.empty()) {
-			std::cout << "Error: empty deque" << std::endl;
+			throw std::invalid_argument("Error: empty deque");
 		}
 		std::deque<int>::iterator it = deq.begin();
 		std::deque<int>::iterator ite = deq.end();
@@ -27,6 +29,9 @@ namespace utils {
 	}
 
 	std::vector< std::pair<int, int> > pairVec(std::vector<int> &vec) {
+		if(vec.empty()) {
+			throw std::invalid_argument("Error: empty vector");
+		}
 		std::vector<int>::iterator it = vec.begin();
 		std::vector<int>::iterator ite = vec.end();
 		std::vector< std::pair<int, int> > pairs;
@@ -90,47 +95,47 @@ namespace utils {
 		}
 	}
 
-		void mergeSortDeq(std::deque< std::pair<int, int> > &deq) {
-		std::deque< std::pair<int, int> > left;
-		std::deque< std::pair<int, int> > right;
-		if (deq.size() > 1) {
-			size_t mid = deq.size() / 2;
-			for (size_t i = 0; i < mid; i++) {
-				left.push_back(deq[i]);
-			}
-			for (size_t i = mid; i < deq.size(); i++) {
-				right.push_back(deq[i]);
-			}
-			mergeSortDeq(left);
-			mergeSortDeq(right);
-			size_t i = 0;
-			size_t j = 0;
-			size_t k = 0;
-			while (i < left.size() && j < right.size()) {
-				if (left[i].first < right[j].first) {
-					deq[k] = left[i];
-					i++;
-				} else {
-					deq[k] = right[j];
-					j++;
-				}
-				k++;
-			}
-			while (i < left.size()) {
+	void mergeSortDeq(std::deque< std::pair<int, int> > &deq) {
+	std::deque< std::pair<int, int> > left;
+	std::deque< std::pair<int, int> > right;
+	if (deq.size() > 1) {
+		size_t mid = deq.size() / 2;
+		for (size_t i = 0; i < mid; i++) {
+			left.push_back(deq[i]);
+		}
+		for (size_t i = mid; i < deq.size(); i++) {
+			right.push_back(deq[i]);
+		}
+		mergeSortDeq(left);
+		mergeSortDeq(right);
+		size_t i = 0;
+		size_t j = 0;
+		size_t k = 0;
+		while (i < left.size() && j < right.size()) {
+			if (left[i].first < right[j].first) {
 				deq[k] = left[i];
 				i++;
-				k++;
-			}
-			while (j < right.size()) {
+			} else {
 				deq[k] = right[j];
 				j++;
-				k++;
 			}
+			k++;
 		}
+		while (i < left.size()) {
+			deq[k] = left[i];
+			i++;
+			k++;
+		}
+		while (j < right.size()) {
+			deq[k] = right[j];
+			j++;
+			k++;
+		}
+	}
 	}
 
 	 void insertionSortVec(std::vector<int> &Sv, std::vector<int> &Pv) {
-		for (size_t i = 1; i < Pv.size(); i++) {
+		for (size_t i = 0; i < Pv.size(); i++) {
 			std::vector<int>::iterator it = std::upper_bound(Sv.begin(), Sv.end(), Pv[i]);
 			if(it != Sv.end())
 				Sv.insert(it, Pv[i]);
@@ -141,7 +146,7 @@ namespace utils {
 	}
 
 	 void insertionSortDeq(std::deque<int> &Sv, std::deque<int> &Pv) {
-		for (size_t i = 1; i < Pv.size(); i++) {
+		for (size_t i = 0; i < Pv.size(); i++) {
 			std::deque<int>::iterator it = std::upper_bound(Sv.begin(), Sv.end(), Pv[i]);
 			if(it != Sv.end())
 				Sv.insert(it, Pv[i]);
@@ -157,7 +162,8 @@ namespace utils {
 			unpaired.push_back(deq[i].first);
 			pending.push_back(deq[i].second);
 		}
-		
+		unpaired.insert(unpaired.begin(), pending[0]);
+		pending.erase(pending.begin());
 		return unpaired;
 	}
 
@@ -196,33 +202,43 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& rhs) {
 	return *this;
 }
 
-void PmergeMe::validateInput(void) {
+bool PmergeMe::validateInput(void) {
+	//validate for negative values for intV and intD
+	for (size_t i = 0; i < _intV.size(); i++) {
+		if (_intV[i] < 0) {
+			throw std::invalid_argument("Error: negative values");
+			return false;
+		}
+	}
 	for (size_t i = 0; i < _intV.size(); i++) {
 		for (size_t j = i + 1; j < _intV.size(); j++) {
 			if (_intV[i] == _intV[j]) {
-				std::cout << "Error: duplicated input" << std::endl;
+				throw std::invalid_argument("Error: duplicated values");
+				return false;
 			}
 		}
 	}
+	return true;
 }
 
 void PmergeMe::processInput(char **argv) {
 	std::istringstream iss;
 	int num = 0;
-
+	
 	iss.exceptions(std::ios::failbit);
 	for (size_t i = 1; argv[i]; i++) {
 		iss.str(argv[i]);
 		try{
 			iss >> num;
 		} catch (std::exception &e) {
-			std::cout << "Error: invalid input: it must be int" << std::endl;
+			throw std::invalid_argument("Error: invalid input: it must be int");
 		}
 		_intV.push_back(num); 
 		_intD.push_back(num);
 		iss.clear();
 	}
-	PmergeMe::validateInput();
+	if(PmergeMe::validateInput() == false)
+		throw std::invalid_argument("Error: invalid input");
 }
 
 
@@ -245,15 +261,15 @@ std::vector<int> PmergeMe::fordSortVec(void) {
 
 	if (_intV.size() % 2 != 0) {
 		PmergeMe::catchVecStraggler(_intV);
-		has_straggler = _straggler != 0;
+		has_straggler = true;
 	}
 	std::vector< std::pair<int, int> > pairs = utils::pairVec(_intV);
 	utils::sortMaxVec(pairs);
 	utils::mergeSortVec(pairs);
 	utils::unpairVector(pairs, Vpending, Sv);
-	Sv.insert(Sv.begin(), Vpending[0]);
-	if(has_straggler)
+	if(has_straggler){
 		Vpending.push_back(_straggler);
+	}
 	utils::insertionSortVec(Sv, Vpending);
 	return Sv;
 }
@@ -286,20 +302,18 @@ void PmergeMe::printContainers(void) {
 	std::cout << std::endl;
 	clock_t begin = clock();
 	_intV = PmergeMe::fordSortVec();
-	clock_t end = clock() - begin;
+	clock_t end = clock();
 	std::cout << "After: ";
 	for (size_t i = 0; i < _intV.size(); i++) {
 		std::cout << _intV[i] << " ";
 	}
 	std::cout << std::endl;
-	std::cout << "Time to process a range of " << _intV.size() << " elements with std::vector : " << (double)end / (double)( CLOCKS_PER_SEC / 1000 )<< " us" << std::endl;
-	// Time to process a range of 5 elements with std::[..] : 0.00031 us
+	double time = static_cast<double>(end - begin) / CLOCKS_PER_MS;
+	std::cout << "Time to process a range of " << _intV.size() << " elements with std::vector : " << std::fixed << std::setprecision(6)<< (float)time << " us" << std::endl;
 
 	if(utils::isSorted(_intV)) {
 		std::cout << "Sorted" << std::endl;
 	} else {
 		std::cout << "Not sorted" << std::endl;
 	}
-	std::cout << std::endl;
-
 }

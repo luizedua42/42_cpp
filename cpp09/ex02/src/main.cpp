@@ -14,8 +14,15 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 	PmergeMe pmm;
-	pmm.processInput(argv);
-	pmm.validateInput();
-	pmm.printContainers();
+	try{
+		pmm.processInput(argv);
+		pmm.validateInput();
+		pmm.printContainers();
+	} catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+	}
+	// pmm.processInput(argv);
+	// pmm.validateInput();
+	// pmm.printContainers();
 	return 0;
 }

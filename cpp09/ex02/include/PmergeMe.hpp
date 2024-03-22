@@ -24,7 +24,7 @@ class PmergeMe {
 		~PmergeMe(void);
 		PmergeMe& operator=(const PmergeMe& rhs);
 		void processInput(char **argv);
-		void validateInput(void);
+		bool validateInput(void);
 		void printContainers(void);
 		int catchVecStraggler(std::vector<int> &vec);
 		int catchDeqStraggler(std::deque<int> &deq);
