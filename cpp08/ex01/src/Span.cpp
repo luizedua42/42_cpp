@@ -82,3 +82,9 @@ int Span::longestSpan(void) throw (LongFail) {
 	}
 	return max;
 };
+
+void Span::addRange(int start, int end)  {
+	for (int i = start; i <= end; i++) {
+		this->addNumber(i);
+	}
+};
