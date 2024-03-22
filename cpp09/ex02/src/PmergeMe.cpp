@@ -9,7 +9,9 @@
 #include "../include/PmergeMe.hpp"
 #include <sstream>
 #include <algorithm>
+#include <ctime>
 
+#define CLOCKS_PER_MS 1000000
 namespace utils {
 	std::deque< std::pair<int, int> > pairDeq(std::deque<int> &deq) {
 		if(deq.empty()) {
@@ -167,6 +169,14 @@ namespace utils {
 		unpaired.insert(unpaired.begin(), pending[0]);
 		pending.erase(pending.begin());
 	}
+	bool isSorted(std::vector<int>& arr)
+	{
+		for (std::vector<int>::iterator it = arr.begin() + 1; it != arr.end(); ++it) {
+			if (*it < *(it - 1))
+				return (false);
+		}
+		return (true);
+}
 }
 
 PmergeMe::PmergeMe() : _intV(), _intD(), _straggler(0){};
@@ -216,14 +226,16 @@ void PmergeMe::processInput(char **argv) {
 }
 
 
-void PmergeMe::catchStraggler(std::vector<int> &vec) {
-	_straggler = vec[vec.size() - 1];
+int PmergeMe::catchVecStraggler(std::vector<int> &vec) {
+	_straggler = vec.back();
 	vec.pop_back();
+	return _straggler;
 }
 
-void PmergeMe::catchStraggler(std::deque<int> &deq) {
-	_straggler = deq[deq.size() - 1];
+int  PmergeMe::catchDeqStraggler(std::deque<int> &deq) {
+	_straggler = deq.back();
 	deq.pop_back();
+	return _straggler;
 }
 
 std::vector<int> PmergeMe::fordSortVec(void) {
@@ -232,13 +244,14 @@ std::vector<int> PmergeMe::fordSortVec(void) {
 	std::vector<int> Vpending;
 
 	if (_intV.size() % 2 != 0) {
-		PmergeMe::catchStraggler(_intV);
+		PmergeMe::catchVecStraggler(_intV);
 		has_straggler = _straggler != 0;
 	}
 	std::vector< std::pair<int, int> > pairs = utils::pairVec(_intV);
 	utils::sortMaxVec(pairs);
 	utils::mergeSortVec(pairs);
 	utils::unpairVector(pairs, Vpending, Sv);
+	Sv.insert(Sv.begin(), Vpending[0]);
 	if(has_straggler)
 		Vpending.push_back(_straggler);
 	utils::insertionSortVec(Sv, Vpending);
@@ -251,13 +264,14 @@ std::deque<int> PmergeMe::fordSortDeq(void) {
 	std::deque<int> Dpending;
 
 	if (_intD.size() % 2 != 0) {
-		PmergeMe::catchStraggler(_intD);
+		_straggler = PmergeMe::catchDeqStraggler(_intD);
 		has_straggler = _straggler != 0;
 	}
 	std::deque< std::pair<int, int> > pairs = utils::pairDeq(_intD);
 	utils::sortMaxDeque(pairs);
 	utils::mergeSortDeq(pairs);
 	utils::unpairDeque(pairs, Dpending);
+	Sd.insert(Sd.begin(), Dpending[0]);
 	if(has_straggler)
 		Dpending.push_back(_straggler);
 	utils::insertionSortDeq(Sd, Dpending);
@@ -270,10 +284,21 @@ void PmergeMe::printContainers(void) {
 		std::cout << _intV[i] << " ";
 	}
 	std::cout << std::endl;
-	PmergeMe::fordSortVec();
+	clock_t begin = clock();
+	_intV = PmergeMe::fordSortVec();
+	clock_t end = clock() - begin;
 	std::cout << "After: ";
 	for (size_t i = 0; i < _intV.size(); i++) {
 		std::cout << _intV[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "Time to process a range of " << _intV.size() << " elements with std::vector : " << (double)end / (double)( CLOCKS_PER_SEC / 1000 )<< " us" << std::endl;
+	// Time to process a range of 5 elements with std::[..] : 0.00031 us
+
+	if(utils::isSorted(_intV)) {
+		std::cout << "Sorted" << std::endl;
+	} else {
+		std::cout << "Not sorted" << std::endl;
 	}
 	std::cout << std::endl;
 

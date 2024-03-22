@@ -26,8 +26,8 @@ class PmergeMe {
 		void processInput(char **argv);
 		void validateInput(void);
 		void printContainers(void);
-		void catchStraggler(std::vector<int> &vec);
-		void catchStraggler(std::deque<int> &deq);
+		int catchVecStraggler(std::vector<int> &vec);
+		int catchDeqStraggler(std::deque<int> &deq);
 		std::vector<int> fordSortVec(void);
 		std::deque<int> fordSortDeq(void);
 	}
