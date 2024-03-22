@@ -83,8 +83,14 @@ int Span::longestSpan(void) throw (LongFail) {
 	return max;
 };
 
-void Span::addRange(int start, int end)  {
-	for (int i = start; i <= end; i++) {
-		this->addNumber(i);
+//add range with iterator using addnumber
+void Span::addRange(std::vector<int>::iterator begin, std::vector<int>::iterator end)
+throw (AddFail) {
+	try{
+		while (begin != end) {
+			this->addNumber(*begin++);
+		}
+	} catch(std::exception &e){
+		(void)e;
 	}
 };

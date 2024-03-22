@@ -37,7 +37,7 @@ class Span {
 		~Span(void);
 		Span& operator=(const Span& rhs);
 		void addNumber(int n) throw (AddFail);
-		void addRange(int start, int end);
+		void addRange(std::vector<int>::iterator begin, std::vector<int>::iterator end) throw (AddFail);
 		int shortestSpan(void) throw (ShortFail);
 		int longestSpan(void) throw (LongFail);
 		std::vector<int> getNumber(void);
