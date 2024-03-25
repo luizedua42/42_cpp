@@ -25,7 +25,7 @@ class PmergeMe {
 		PmergeMe& operator=(const PmergeMe& rhs);
 		void processInput(char **argv);
 		bool validateInput(void);
-		void printContainers(void);
+		void printContainers(clock_t dataManageTime);
 		int catchVecStraggler(std::vector<int> &vec);
 		int catchDeqStraggler(std::deque<int> &deq);
 		std::vector<int> fordSortVec(void);

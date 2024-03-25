@@ -28,9 +28,9 @@ static void do_the_math(std::stack<ssize_t>& stack, char op) throw(std::domain_e
 
 	if(stack.size() < 2)
 		throw std::domain_error("Invalid expression: there are not enough numbers in the stack.");
-	a = stack.top();
-	stack.pop();
 	b = stack.top();
+	stack.pop();
+	a = stack.top();
 	stack.pop();
 
 	switch(op) {

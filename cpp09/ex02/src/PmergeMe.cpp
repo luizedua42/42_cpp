@@ -156,15 +156,13 @@ namespace utils {
 		Pv.erase(Pv.begin(), Pv.end());
 	}
 
-	std::deque<int> unpairDeque(std::deque< std::pair<int, int> > &deq, std::deque<int> &pending) {
-		std::deque<int> unpaired;
+	void unpairDeque(std::deque< std::pair<int, int> > &deq, std::deque<int> &pending, std::deque<int> &unpaired) {
 		for (size_t i = 0; i < deq.size(); i++) {
 			unpaired.push_back(deq[i].first);
 			pending.push_back(deq[i].second);
 		}
 		unpaired.insert(unpaired.begin(), pending[0]);
 		pending.erase(pending.begin());
-		return unpaired;
 	}
 
 	void unpairVector(std::vector< std::pair<int, int> > &vec, std::vector<int> &pending, std::vector<int> &unpaired) {
@@ -175,9 +173,9 @@ namespace utils {
 		unpaired.insert(unpaired.begin(), pending[0]);
 		pending.erase(pending.begin());
 	}
-	bool isSorted(std::vector<int>& arr)
+	bool isSorted(std::deque<int>& arr)
 	{
-		for (std::vector<int>::iterator it = arr.begin() + 1; it != arr.end(); ++it) {
+		for (std::deque<int>::iterator it = arr.begin() + 1; it != arr.end(); ++it) {
 			if (*it < *(it - 1))
 				return (false);
 		}
@@ -203,7 +201,6 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& rhs) {
 }
 
 bool PmergeMe::validateInput(void) {
-	//validate for negative values for intV and intD
 	for (size_t i = 0; i < _intV.size(); i++) {
 		if (_intV[i] < 0) {
 			throw std::invalid_argument("Error: negative values");
@@ -224,7 +221,13 @@ bool PmergeMe::validateInput(void) {
 void PmergeMe::processInput(char **argv) {
 	std::istringstream iss;
 	int num = 0;
-	
+
+	for(int i = 1; argv[i] != NULL; i++) {
+		if (std::string(argv[i]).find_first_not_of("0123456789") != std::string::npos) {
+			throw std::invalid_argument("Error: invalid input: it must be int");
+		}
+	}
+
 	iss.exceptions(std::ios::failbit);
 	for (size_t i = 1; argv[i]; i++) {
 		iss.str(argv[i]);
@@ -281,20 +284,20 @@ std::deque<int> PmergeMe::fordSortDeq(void) {
 
 	if (_intD.size() % 2 != 0) {
 		_straggler = PmergeMe::catchDeqStraggler(_intD);
-		has_straggler = _straggler != 0;
+		has_straggler = true;
 	}
 	std::deque< std::pair<int, int> > pairs = utils::pairDeq(_intD);
 	utils::sortMaxDeque(pairs);
 	utils::mergeSortDeq(pairs);
-	utils::unpairDeque(pairs, Dpending);
-	Sd.insert(Sd.begin(), Dpending[0]);
+	utils::unpairDeque(pairs, Dpending, Sd);
+	// Sd.insert(Sd.begin(), Dpending[0]);
 	if(has_straggler)
 		Dpending.push_back(_straggler);
 	utils::insertionSortDeq(Sd, Dpending);
 	return Sd;
 }
 
-void PmergeMe::printContainers(void) {
+void PmergeMe::printContainers(clock_t dataManageTime) {
 	std::cout << "Before: ";
 	for (size_t i = 0; i < _intV.size(); i++) {
 		std::cout << _intV[i] << " ";
@@ -308,12 +311,11 @@ void PmergeMe::printContainers(void) {
 		std::cout << _intV[i] << " ";
 	}
 	std::cout << std::endl;
-	double time = static_cast<double>(end - begin) / CLOCKS_PER_MS;
-	std::cout << "Time to process a range of " << _intV.size() << " elements with std::vector : " << std::fixed << std::setprecision(6)<< (float)time << " us" << std::endl;
-
-	if(utils::isSorted(_intV)) {
-		std::cout << "Sorted" << std::endl;
-	} else {
-		std::cout << "Not sorted" << std::endl;
-	}
+	double time = static_cast<double>((end - begin) + dataManageTime )/ CLOCKS_PER_SEC;
+	std::cout << "Time to process a range of " << _intV.size() << " elements with std::vector : " << std::fixed << std::setprecision(9)<< (float)time << " s (in ms)" << std::endl;
+	begin = clock();
+	_intD = PmergeMe::fordSortDeq();
+	end = clock();
+	time = static_cast<double>((end - begin) + dataManageTime )/ CLOCKS_PER_SEC;
+	std::cout << "Time to process a range of " << _intD.size() << " elements with std::deque : " << std::fixed << std::setprecision(9)<< (float)time << " s (in ms)" << std::endl;
 }

@@ -6,6 +6,7 @@
 * @createdOn : 14/03/2024
 *========================**/
 #include "../include/Span.hpp"
+#include <limits>
 
 Span::Span():  number(0), size(0){
 	std::cout << "Default constructor called" << std::endl;
@@ -57,18 +58,24 @@ void Span::addNumber(int n) throw (AddFail){
 	this->number.push_back(n);
 };
 
+//Finding the shortest span can't be done only by subtracting the two lowest numbers
 int Span::shortestSpan(void) throw (ShortFail) {
 	if (this->number.size() < 2) {
 		throw ShortFail();
 	}
-	int min = this->number[0];
-	for (unsigned int i = 1; i < this->number.size(); i++) {
-		if (this->number[i] < min) {
-			min = this->number[i];
+	std::vector<int>::iterator tmp;
+	std::vector<int>::iterator itB = number.begin();
+	int shortest = std::numeric_limits<int>::max();
+	for (tmp = itB++; tmp != number.end(); ++itB) {
+		if (itB == number.end()) {
+			itB = ++tmp;
+			continue ;
 		}
+		shortest = std::abs(*tmp - *itB) < shortest ? std::abs(*tmp - *itB) : shortest; 
 	}
-	return min;
-};
+	return (shortest);
+}
+
 
 int Span::longestSpan(void) throw (LongFail) {
 	if (this->number.size() < 2) {
